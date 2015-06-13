@@ -1,0 +1,32 @@
+﻿Build started 6/13/2015 12:15:13 PM.
+     1>Project "C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Barcode\Barcode.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /FR"Debug\\" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\users\vegeta\documents\captain strike new\barcode\barcode\cstateinfo.h(115): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\vegeta\documents\captain strike new\barcode\barcode\cstateinfo.h(124): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\program files (x86)\windows kits\8.1\include\um\objidlbase.h(395): warning C4099: 'IContext' : type name first seen using 'class' now seen using 'struct'
+                 c:\users\vegeta\documents\captain strike new\barcode\barcode\icontext.h(6) : see declaration of 'IContext'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Debug\Barcode.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Debug\Barcode.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Debug\Barcode.lib" /MACHINE:X86 Debug\CJsonStateTransitionInfo.obj
+         Debug\Command.obj
+         Debug\CStateField.obj
+         Debug\CStateInfo.obj
+         Debug\CTransitionInfo.obj
+         Debug\Delegate.obj
+         Debug\ExpressionExecution.obj
+         Debug\IContext.obj
+         Debug\INotification.obj
+         Debug\InterfaceFSM.obj
+         Debug\jsoncpp.obj
+         Debug\main.obj
+         Debug\CFSMSystem.obj
+         Debug\TestFSM.obj
+         Barcode.vcxproj -> C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Debug\Barcode.exe
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Debug\Barcode.bsc" /n Debug\CJsonStateTransitionInfo.sbr Debug\Command.sbr Debug\CStateField.sbr Debug\CStateInfo.sbr Debug\CTransitionInfo.sbr Debug\Delegate.sbr Debug\ExpressionExecution.sbr Debug\IContext.sbr Debug\INotification.sbr Debug\InterfaceFSM.sbr Debug\jsoncpp.sbr Debug\main.sbr Debug\CFSMSystem.sbr Debug\TestFSM.sbr
+     1>Done Building Project "C:\Users\Vegeta\Documents\Captain Strike New\Barcode\Barcode\Barcode.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:11.05
