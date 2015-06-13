@@ -1,4 +1,4 @@
 .svn/*
 *.sdf
-Barcode/Debug.*
+Barcode/Debug/*
 Barcode/Barcode/Debug/*
