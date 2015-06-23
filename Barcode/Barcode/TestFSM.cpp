@@ -84,7 +84,7 @@ void TestFSM::DoExit(CStateInfo* stateInfo)
 void TestFSM::DoExecuteFunction(CStateInfo* stateInfo,float dt)
 {
 	stateInfo->GetFunctionParam(m_pParam, m_pMacro);
-	if (m_pFunctionMap[stateInfo->GetStateName()] != nullptr)
+	if (m_pFunctionMap[stateInfo->GetStateName()] != NULL)
 		(this->*m_pFunctionMap[stateInfo->GetStateName()])();
 }
 

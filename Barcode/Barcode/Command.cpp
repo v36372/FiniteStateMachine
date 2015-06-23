@@ -1,22 +1,32 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "Command.h"
+#include<sstream>
 
 JFSM::Command::Command()
 {
 
 }
 
+std::string JFSM::Command::to_string(int value)
+{
+	std::ostringstream os ;
+    os << value ;
+    return os.str() ;
+}
+
+
 std::string JFSM::Command::GetString()
 {
 	std::string res = "";
-	res += (int)opCode + "," + DataName + "," + std::to_string(OutputVariableIndex) + ",";
+
+	res += (int)opCode + "," + DataName + "," +to_string(OutputVariableIndex) + ",";
 
 	if (Args.size() > 0)
 	{
-		res += std::to_string(Args.size());
+		res += to_string(Args.size());
 		for (int i = 0; i < Args.size(); i++)
 		{
-			res += "," + Args[i];
+			res += "," + to_string(Args[i]);
 		}
 	}
 	else

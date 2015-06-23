@@ -1,5 +1,5 @@
 #include "CJsonStateTransitionInfo.h"
-#include "json\json.h"
+#include "json/json.h"
 #include <fstream>
 
 std::map<std::string, CJsonStateTransitionInfo*> CJsonStateTransitionInfo::m_pInstanceDatabase = std::map<std::string, CJsonStateTransitionInfo*>();
@@ -31,7 +31,7 @@ void CJsonStateTransitionInfo::Parse(std::string path)
 		m_pJsonStateList.clear();
 		m_pJsonTransitionList.clear();
 		std::ifstream File;
-		File.open(path);
+		File.open(path.c_str());
 		if (!File)
 			return;
 		reader.parse(File, root, false);
@@ -97,7 +97,7 @@ CJsonStateTransitionInfo* CJsonStateTransitionInfo::LoadFromResource(std::string
 		m_pInstanceDatabase[resourcePath] = ins;
 		return ins;
 	}
-	return nullptr;
+	return NULL;
 }
 
 CJsonStateTransitionInfo::~CJsonStateTransitionInfo()

@@ -7,15 +7,10 @@ InterfaceFSM::InterfaceFSM()
 
 void InterfaceFSM::Start()
 {
-	typedef Delegate<double, std::string> TestDelegate;
+	typedef Delegate<double, std::string,std::vector<param>> TestDelegate;
 	m_Exe->FunctionEvalHandler = TestDelegate::from_function<InterfaceFSM, &InterfaceFSM::EvaluateFunction>(this);
 	m_Exe->VariableEvalHandler = TestDelegate::from_function<InterfaceFSM, &InterfaceFSM::EvaluateVariable>(this);
 
-	//Create and load FSM
-	//  For any logic change please modify Resource/colorchange.graphml
-	//  Resource/colorchange.grapml will be compile to colorchange.txt by Unity Editor
-	//  Noted: Sometime UnityEditor don't auto recompile please import it manualy
-	//m_pFSMSystem = new CFSMSystem(this, this);
 	m_pFSMSystem->Load(m_pPath);
 }
 

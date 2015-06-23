@@ -2,7 +2,7 @@
 
 #include "ExpressionExecution.h"
 #include <math.h>
-
+#include <functional>
 
 JFSM::ExpressionExecution::ExpressionExecution()
 {
@@ -17,9 +17,9 @@ void JFSM::ExpressionExecution::LoadExpression(std::vector<Command*> data)
 void JFSM::ExpressionExecution::LoadExpression(std::string data)
 {
 	data += ":";
-	if (s_pCommandCache.find(std::hash<std::string>()(data)) != s_pCommandCache.end())
+	if (s_pCommandCache.find(hash(data.c_str())) != s_pCommandCache.end())
 	{
-		m_pCommandList = s_pCommandCache[std::hash<std::string>()(data)];
+		m_pCommandList = s_pCommandCache[hash(data.c_str())];
 		return;
 	}
 
@@ -35,8 +35,43 @@ void JFSM::ExpressionExecution::LoadExpression(std::string data)
 		res.push_back(cmd);
 		searchIndex = index+1;
 	}
-	s_pCommandCache[std::hash<std::string>()(data)] = res;
+	s_pCommandCache[std::tr1::hash<std::string>()(data)] = res;
 	m_pCommandList = res;
+}
+
+std::vector<param> JFSM::ExpressionExecution::_ParseFunctionParam(Command* cmd)
+{
+		//object[] param = null;
+		std::vector<param> paramList;
+		if (cmd->Args.size() > 0)
+		{
+			//param = new object[cmd.Args.Count / 2];
+			param newParam;
+			for (int j = 0; j < cmd->Args.size(); j += 2)
+			{
+				OpCode code = (OpCode)cmd->Args[j];
+				int value = cmd->Args[j + 1];
+				//if (code == OpCode::OpConstant)
+				//{
+				//	newParam.type = paramType::Int;
+				//	newParam.iParam = value;
+				//}
+				//else if(code == OpCode::OpEnum)
+				//{
+				//	
+				//}
+				///*else if (code == OpCode.OpVariable)
+				//{
+				//	param[j / 2] = m_pRunTimeMemory[value];
+				//}*/
+				
+				newParam.type = paramType::Int;
+				newParam.iParam = value;
+
+				paramList.push_back(newParam);
+			}
+		}
+		return paramList;
 }
 
 double JFSM::ExpressionExecution::_GetOperatorData(int index, Command* cmd)
@@ -75,14 +110,16 @@ void JFSM::ExpressionExecution::Eval()
 			{
 			case OpVariableEval:
 			{
-										  m_pRunTimeMemory[cmd->OutputVariableIndex] = VariableEvalHandler(cmd->DataName);
+										  std::vector<param> paramList;
+										  m_pRunTimeMemory[cmd->OutputVariableIndex] = VariableEvalHandler(cmd->DataName,paramList);
 			}
 				break;
 			case OpFunctionEval:
 			{
 										  //object[] param = _ParseFunctionParam(cmd);
 										  //object[] param = null;
-										  m_pRunTimeMemory[cmd->OutputVariableIndex] = FunctionEvalHandler(cmd->DataName);
+										  std::vector<param> paramList = _ParseFunctionParam(cmd);
+										  m_pRunTimeMemory[cmd->OutputVariableIndex] = FunctionEvalHandler(cmd->DataName,paramList);
 			}
 				break;
 			case OpLT:

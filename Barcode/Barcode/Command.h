@@ -21,7 +21,8 @@ namespace JFSM
 		OpNot,
 		OpConstant,
 		OpVariable,
-		opResult
+		opResult,
+		OpEnum
 	};
 
 	class Command
@@ -35,6 +36,7 @@ namespace JFSM
 		std::string DataName;
 
 		std::string GetString();
+		std::string to_string(int);
 		void LoadString(std::string);
 
 		~Command();

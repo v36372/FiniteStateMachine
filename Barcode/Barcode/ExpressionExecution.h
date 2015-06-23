@@ -5,6 +5,27 @@
 #include "Command.h"
 #include "Delegate.h"
 
+enum paramType
+	{
+		Char,
+		Int,
+		Float,
+		Double,
+		String,
+		Pointer
+	};
+
+	struct param
+	{
+		paramType type;
+		char cParam;
+		int iParam;
+		float fParam;
+		double dParam;
+		std::string sParam;
+		void* pParam;
+	};
+
 namespace JFSM
 {
 	class ExpressionExecution
@@ -15,9 +36,9 @@ namespace JFSM
 		double Result;
 		std::string ErrorCode;
 		bool HasError;
-
-		Delegate<double,std::string> FunctionEvalHandler;
-		Delegate<double,std::string> VariableEvalHandler;
+		
+		Delegate<double,std::string,std::vector<param>> FunctionEvalHandler;
+		Delegate<double,std::string,std::vector<param>> VariableEvalHandler;
 
 		void LoadExpression(std::vector<Command*> data);
 
@@ -29,7 +50,19 @@ namespace JFSM
 		}
 
 		void Eval();
+		std::vector<param> _ParseFunctionParam(Command* cmd);
 		double _GetOperatorData(int index, Command* cmd);
+	
+		unsigned long hash(const char *str)
+		{
+			unsigned long hash = 5381;
+			int c;
+			
+			while (c = *str++)
+				hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+			
+			return hash;
+		}	
 
 		~ExpressionExecution();
 	private:

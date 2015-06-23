@@ -28,8 +28,8 @@ public:
 
 	//---------------------------------Evaluate Expression ------------------------- Needed to be Overrided---------------------//
 
-	virtual double EvaluateFunction(std::string name)=0;
-	virtual double EvaluateVariable(std::string name)=0;
+	virtual double EvaluateFunction(std::string name,std::vector<param> paramList)=0;
+	virtual double EvaluateVariable(std::string name,std::vector<param> paramList)=0;
 	virtual bool Eval(CTransitionInfo*)=0;
 
 	~InterfaceFSM();
@@ -49,5 +49,4 @@ protected:
 	//-----------------------------------Function Mapping--------------------------------------------//
 
 	virtual void RegisterFunction() = 0;
-
 };

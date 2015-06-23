@@ -8,8 +8,9 @@ CFSMSystem::CFSMSystem(INotification* Notify, IContext* Context)
 
 	m_CurrentStateIndex = 0;
 	m_LastStateIndex = 0;
-	m_pCurrentStateInfo = nullptr;
-	m_pPreviousStateInfo = nullptr;
+	m_pCurrentStateInfo = NULL;
+	m_pPreviousStateInfo = NULL;
+	m_pAnyState = NULL;
 }
 
 void CFSMSystem::SetContext(INotification* notify, IContext* context)
@@ -120,9 +121,9 @@ void CFSMSystem::Load(std::string resourcePath)
 	SetDefaultStateInfo();
 	InitializeEvent();
 
-	m_pPreviousStateInfo = nullptr;
+	m_pPreviousStateInfo = NULL;
 
-	if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+	if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 	{
 		m_pCurrentNotification->DoEnter(m_pCurrentStateInfo, m_pPreviousStateInfo);
 	}
@@ -158,7 +159,7 @@ CStateInfo* CFSMSystem::FindEventState(std::string name)
 			return m_zpStateList[i];
 	}
 	CStateInfo* cs;
-	cs = nullptr;
+	cs = NULL;
 	return cs;
 }
 
@@ -167,7 +168,7 @@ void CFSMSystem::BeginProcessingEvent(CStateInfo* state)
 	m_pProcessingStack.push(m_pCurrentStateInfo);
 
 	//Switch To Event State
-	if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+	if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 	{
 		m_pCurrentNotification->DoExit(m_pCurrentStateInfo);
 		m_pPreviousStateInfo = m_pCurrentStateInfo;
@@ -176,9 +177,9 @@ void CFSMSystem::BeginProcessingEvent(CStateInfo* state)
 	SetNextStateInfo(state->GetStateID());
 
 	// HHoang (optimize)
-	if (m_pCurrentNotification != nullptr)
+	if (m_pCurrentNotification != NULL)
 	{
-		if (m_pCurrentStateInfo != nullptr)
+		if (m_pCurrentStateInfo != NULL)
 			m_pCurrentNotification->DoEnter(m_pCurrentStateInfo, m_pPreviousStateInfo);
 		m_pCurrentNotification->DoBeginEvent();
 	}
@@ -190,19 +191,19 @@ void CFSMSystem::EndEventProcessing()
 	m_pProcessingStack.pop();
 
 	//Switch To LastProcessing State
-	if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+	if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 	{
 		m_pCurrentNotification->DoExit(m_pCurrentStateInfo);
 		m_pPreviousStateInfo = m_pCurrentStateInfo;
 	}
 
-	if (state == nullptr)
+	if (state == NULL)
 	{
-		m_pCurrentStateInfo = nullptr;
+		m_pCurrentStateInfo = NULL;
 		m_CurrentStateIndex = 0;
 		m_zpCurrentTransitionInfo.clear();
 
-		if (m_pCurrentNotification != nullptr)
+		if (m_pCurrentNotification != NULL)
 			m_pCurrentNotification->DoEndEvent();
 
 		return;
@@ -211,9 +212,9 @@ void CFSMSystem::EndEventProcessing()
 	SetNextStateInfo(state->GetStateID());
 
 	// HHoang (optimize)
-	if (m_pCurrentNotification != nullptr)
+	if (m_pCurrentNotification != NULL)
 	{
-		if (m_pCurrentStateInfo != nullptr)
+		if (m_pCurrentStateInfo != NULL)
 			m_pCurrentNotification->DoEnter(m_pCurrentStateInfo, m_pPreviousStateInfo);
 		m_pCurrentNotification->DoEndEvent();
 	}
@@ -233,7 +234,7 @@ void CFSMSystem::UpdateEvent(float dt)
 		std::string strEvent = m_pEventQueue.front();
 		m_pEventQueue.pop();
 		CStateInfo* state = FindEventState(strEvent);
-		if (state != nullptr)
+		if (state != NULL)
 		{
 			BeginProcessingEvent(state);
 		}
@@ -247,11 +248,11 @@ void CFSMSystem::Update(float dt)
 
 	//Update Default State
 
-	if (m_pCurrentStateInfo == nullptr)
+	if (m_pCurrentStateInfo == NULL)
 		return;
 
 	// HHoang (optimize)
-	if (m_pCurrentNotification != nullptr)
+	if (m_pCurrentNotification != NULL)
 	{
 		if (m_pCurrentStateInfo->GetStateFunction() == "False")
 			m_pCurrentNotification->DoUpdate(m_pCurrentStateInfo, dt);
@@ -265,14 +266,14 @@ void CFSMSystem::Update(float dt)
 	CTransitionInfo* TransitionInfo;
 
 	//Update AnyState
-	if (m_pAnyState != nullptr)
+	if (m_pAnyState != NULL)
 	{
 		for (int i = 0; i < m_zpAnyStateTransition.size(); i++)
 		{
 			TransitionInfo = m_zpAnyStateTransition[i];
 			if (m_pContext->Eval(TransitionInfo))
 			{
-				if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+				if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 				{
 					m_pCurrentNotification->DoExit(m_pCurrentStateInfo);
 					m_pPreviousStateInfo = m_pCurrentStateInfo;
@@ -280,7 +281,7 @@ void CFSMSystem::Update(float dt)
 
 				SetNextStateInfo(TransitionInfo);
 
-				if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+				if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 				{
 					m_pCurrentNotification->DoEnter(m_pCurrentStateInfo, m_pPreviousStateInfo);
 				}
@@ -305,7 +306,7 @@ void CFSMSystem::Update(float dt)
 			TransitionInfo = m_zpCurrentTransitionInfo[i];
 			if (m_pContext->Eval(TransitionInfo))
 			{
-				if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+				if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 				{
 					m_pCurrentNotification->DoExit(m_pCurrentStateInfo);
 					m_pPreviousStateInfo = m_pCurrentStateInfo;
@@ -313,7 +314,7 @@ void CFSMSystem::Update(float dt)
 
 				SetNextStateInfo(TransitionInfo);
 
-				if (m_pCurrentNotification != nullptr && m_pCurrentStateInfo != nullptr)
+				if (m_pCurrentNotification != NULL && m_pCurrentStateInfo != NULL)
 				{
 					m_pCurrentNotification->DoEnter(m_pCurrentStateInfo, m_pPreviousStateInfo);
 				}
