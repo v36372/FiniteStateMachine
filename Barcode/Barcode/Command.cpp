@@ -1,4 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
+#include "stdafx.h"
 #include "Command.h"
 #include<sstream>
 

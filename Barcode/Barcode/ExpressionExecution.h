@@ -7,23 +7,25 @@
 
 enum paramType
 	{
-		Char,
 		Int,
 		Float,
-		Double,
 		String,
-		Pointer
 	};
 
 	struct param
 	{
 		paramType type;
-		char cParam;
 		int iParam;
 		float fParam;
-		double dParam;
 		std::string sParam;
-		void* pParam;
+
+		param()
+		{
+			type = paramType::Int;
+			iParam = 0;
+			fParam = 0.0;
+			sParam = "";
+		}
 	};
 
 namespace JFSM

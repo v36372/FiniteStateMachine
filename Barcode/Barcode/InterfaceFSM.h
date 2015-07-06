@@ -18,19 +18,15 @@ public:
 	
 	//--------------------------------Basic Behavior------------------------------ Needed to be Overrided-----------------//
 
-	virtual void DoEnter(CStateInfo* stateInfo, CStateInfo* previousStateInfo)=0;
-	virtual void DoUpdate(CStateInfo* stateInfo, float dt)=0;
-	virtual void DoExecuteFunction(CStateInfo* stateInfo, float dt)=0;
-	virtual void DoExit(CStateInfo* stateInfo)=0;
-	virtual void DoBeginEvent()=0;
-	virtual void DoEndEvent()=0;
 	virtual void RaiseEvent(std::string name);
 
 	//---------------------------------Evaluate Expression ------------------------- Needed to be Overrided---------------------//
 
 	virtual double EvaluateFunction(std::string name,std::vector<param> paramList)=0;
 	virtual double EvaluateVariable(std::string name,std::vector<param> paramList)=0;
-	virtual bool Eval(CTransitionInfo*)=0;
+	virtual bool Eval(CTransitionInfo*&)=0;
+
+	void SetPath(std::string newPath);
 
 	~InterfaceFSM();
 

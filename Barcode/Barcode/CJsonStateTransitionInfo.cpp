@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CJsonStateTransitionInfo.h"
 #include "json/json.h"
 #include <fstream>
@@ -60,7 +61,7 @@ void CJsonStateTransitionInfo::Parse(std::string path)
 				else
 				{
 					CStateField* field = new CStateField(fields[index]);
-					StateInfo->GetStateFields().push_back(field);
+					StateInfo->PushStateField(field);
 				}
 			}
 

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CStateField.h"
 
 CStateField::CStateField(Json::Value Field)

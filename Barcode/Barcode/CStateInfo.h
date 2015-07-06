@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "CStateField.h"
+#include "ExpressionExecution.h"
 
 //void replaceAll(std::string& str, const std::string& from, const std::string& to);
 
@@ -12,65 +13,74 @@ public:
 
 	~CStateInfo();
 private:
-	std::string m_bStateDefault;
-	std::string m_bStateTrigger;
-	std::string m_bStateFunction;
-	std::string m_bStateName;
-	std::string m_bStateID;
+	bool m_bStateDefault;
+	bool m_bStateTrigger;
+	bool m_bStateFunction;
+	std::string m_sStateName;
+	int m_iStateID;
 	float m_X;
 	float m_Y;
 
 	std::vector<CStateField*> m_pFields;	//
 public:
 
-	std::string GetStateDefault()
+	bool GetStateDefault()
 	{
 		return m_bStateDefault;
 	}
 
 	void SetStateDefault(std::string StateDefault)
 	{
-		m_bStateDefault = StateDefault;
+		if(StateDefault == "True")
+			m_bStateDefault = true;
+		else
+			m_bStateDefault = false;
 	}
 
-	std::string GetStateTrigger()
+	bool GetStateTrigger()
 	{
 		return m_bStateTrigger;
 	}
 
 	void SetStateTrigger(std::string StateTrigger)
 	{
-		m_bStateTrigger = StateTrigger;
+		if(StateTrigger == "True")
+			m_bStateTrigger = true;
+		else
+			m_bStateTrigger = false;
 	}
 
-	std::string GetStateFunction()
+	bool GetStateFunction()
 	{
 		return m_bStateFunction;
 	}
 
 	void SetStateFunction(std::string StateFunction)
 	{
-		m_bStateFunction = StateFunction;
+		if(StateFunction == "True")
+			m_bStateFunction = true;
+		else
+			m_bStateFunction = false;
 	}
 
 	std::string GetStateName()
 	{
-		return m_bStateName;
+		return m_sStateName;
 	}
 
 	void SetStateName(std::string StateName)
 	{
-		m_bStateName = StateName;
+		m_sStateName = StateName;
 	}
 
-	std::string GetStateID()
+	int GetStateID()
 	{
-		return m_bStateID;
+		return m_iStateID;
 	}
 
 	void SetStateID(std::string StateID)
 	{
-		m_bStateID = StateID;
+		m_iStateID = atoi(StateID.c_str());
 	}
 
 	float GetX()
@@ -98,6 +108,11 @@ public:
 		return m_pFields;
 	}
 
+	void PushStateField(CStateField*& newField)
+	{
+		m_pFields.push_back(newField);
+	}
+
 	void replaceAll(std::string& str, const std::string& from, const std::string& to) {
 		if (from.empty())
 			return;
@@ -108,30 +123,18 @@ public:
 		}
 	}
 
-	void GetFunctionParam(std::map<std::string, std::string> param, std::map<std::string, std::string> macro)
+	std::vector<param> GetFunctionParam()
 	{
-		param.clear();
+		std::vector<param> ParamList;
 		CStateField* tmp;
 		for (int i = 0; i < m_pFields.size(); i++)
 		{
 			tmp = m_pFields[i];
-			std::string key = tmp->GetName();
-			std::string value = tmp->GetValue();
-
-			//Expand Macro
-			if (macro.size() > 0 && tmp->Getmacro().size() > 0)
-			{
-				for (int j = 0; j < tmp->Getmacro().size(); j++)
-				{
-					std::string macroKey = tmp->Getmacro()[j];
-					if (macro.find(macroKey)._Ptr)
-					{
-						//value = value.Replace(macroKey, macro[macroKey]);
-						replaceAll(value, macroKey, macro[macroKey]);
-					}
-				}
-			}
-			param[key] = value;
+			param p;
+			p.type = paramType::String;
+			p.sParam = tmp->GetValue();
+			ParamList.push_back(p);
 		}
+		return ParamList;
 	}
 };

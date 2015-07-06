@@ -10,32 +10,32 @@ public:
 
 	~CTransitionInfo();
 private:
-	std::string m_sStateIDFrom;
-	std::string m_sStateIDTo;
+	int m_iStateIDFrom;
+	int m_iStateIDTo;
 	std::string m_sCondition;
 	std::string m_sUniqueKey;
 	std::string m_sByteCode;
 
 	std::vector<JFSM::Command*> m_pCompiledByteCode;
 public:
-	std::string GetStateIDFrom()
+	int GetStateIDFrom()
 	{
-		return m_sStateIDFrom;
+		return m_iStateIDFrom;
 	}
 
 	void SetStateIDFrom(std::string StateIDFrom)
 	{
-		m_sStateIDFrom = StateIDFrom;
+		m_iStateIDFrom = atoi(StateIDFrom.c_str());
 	}
 
-	std::string GetStateIDTo()
+	int GetStateIDTo()
 	{
-		return m_sStateIDTo;
+		return m_iStateIDTo;
 	}
 
 	void SetStateIDTo(std::string StateIDTo)
 	{
-		m_sStateIDTo = StateIDTo;
+		m_iStateIDTo = atoi(StateIDTo.c_str());
 	}
 
 	std::string GetCondition()

@@ -23,11 +23,11 @@ private:
 	CStateInfo* m_pCurrentStateInfo, *m_pPreviousStateInfo;
 	std::vector<CTransitionInfo*> m_zpCurrentTransitionInfo;
 	int m_CurrentStateIndex, m_LastStateIndex;
-
+	
 	//Event
 	std::vector<CStateInfo*> m_zpEventList;
 	std::stack<CStateInfo*> m_pProcessingStack;                         //
-	std::queue<std::string> m_pEventQueue;							//
+	std::vector<std::string> m_pEventQueue;							//
 
 	//Any State
 	CStateInfo* m_pAnyState;
@@ -37,7 +37,6 @@ private:
 public:
 	bool EnableTransitionCheck;
 	bool EnableEvent;
-
 
 	INotification* CurrentState()
 	{
@@ -87,11 +86,11 @@ public:
 	void SetContext(INotification*,IContext*);
 	void SetDefaultStateInfo();
 	void SetNextStateInfo(CTransitionInfo* CurrentTransitionInfo);
-	void SetNextStateInfo(std::string ID);
+	void SetNextStateInfo(int ID);
 	
 	void RaiseEvent(std::string eventName)
 	{
-		m_pEventQueue.push(eventName);
+		m_pEventQueue.push_back(eventName);
 	}
 
 	bool IsEventProcessing()
@@ -112,4 +111,6 @@ public:
 	void EndEventProcessing();
 	void UpdateEvent(float dt);
 	void Update(float dt);
+
+	bool IsEventInQueue(std::string EventName);
 };

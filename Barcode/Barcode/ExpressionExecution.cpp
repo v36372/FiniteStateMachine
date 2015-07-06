@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-
+#include "stdafx.h"
 #include "ExpressionExecution.h"
 #include <math.h>
 #include <functional>
@@ -65,8 +65,8 @@ std::vector<param> JFSM::ExpressionExecution::_ParseFunctionParam(Command* cmd)
 				//	param[j / 2] = m_pRunTimeMemory[value];
 				//}*/
 				
-				newParam.type = paramType::Int;
-				newParam.iParam = value;
+				newParam.type = paramType::Float;
+				newParam.fParam = value;
 
 				paramList.push_back(newParam);
 			}

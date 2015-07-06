@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "CFSMSystem.h"
 
 CFSMSystem::CFSMSystem(INotification* Notify, IContext* Context)
@@ -31,7 +32,7 @@ void CFSMSystem::SetDefaultStateInfo()
 			m_zpAnyStateTransition.clear();
 		}
 		else
-		if (StateInfo->GetStateDefault() == "True")
+		if (StateInfo->GetStateDefault())
 		{
 			m_pCurrentStateInfo = StateInfo;
 			m_CurrentStateIndex = i;
@@ -83,7 +84,7 @@ void CFSMSystem::SetNextStateInfo(CTransitionInfo* CurrentTransitionInfo)
 	}
 }
 
-void CFSMSystem::SetNextStateInfo(std::string ID)
+void CFSMSystem::SetNextStateInfo(int ID)
 {
 	CStateInfo* StateInfo;
 	for (int i = 0; i < m_zpStateList.size(); i++)
@@ -144,7 +145,7 @@ void CFSMSystem::InitializeEvent()
 	m_zpEventList.clear();
 	for (int i = 0; i < m_zpStateList.size(); i++)
 	{
-		if (m_zpStateList[i]->GetStateTrigger() == "True")
+		if (m_zpStateList[i]->GetStateTrigger())
 		{
 			m_zpEventList.push_back(m_zpStateList[i]);
 		}
@@ -231,14 +232,24 @@ void CFSMSystem::UpdateEvent(float dt)
 
 	if (m_pEventQueue.size() > 0)
 	{
-		std::string strEvent = m_pEventQueue.front();
-		m_pEventQueue.pop();
+		std::string strEvent = m_pEventQueue[0];
+		m_pEventQueue.erase(m_pEventQueue.begin(),m_pEventQueue.begin()+1);
 		CStateInfo* state = FindEventState(strEvent);
 		if (state != NULL)
 		{
 			BeginProcessingEvent(state);
 		}
 	}
+}
+
+bool CFSMSystem::IsEventInQueue(std::string EventName)
+{
+	for(int i = 0;i<m_pEventQueue.size();i++)
+	{
+		if(m_pEventQueue[i] == EventName)
+			return true;
+	}
+	return false;
 }
 
 void CFSMSystem::Update(float dt)
@@ -254,7 +265,7 @@ void CFSMSystem::Update(float dt)
 	// HHoang (optimize)
 	if (m_pCurrentNotification != NULL)
 	{
-		if (m_pCurrentStateInfo->GetStateFunction() == "False")
+		if (!m_pCurrentStateInfo->GetStateFunction())
 			m_pCurrentNotification->DoUpdate(m_pCurrentStateInfo, dt);
 		else
 			m_pCurrentNotification->DoExecuteFunction(m_pCurrentStateInfo, dt);
